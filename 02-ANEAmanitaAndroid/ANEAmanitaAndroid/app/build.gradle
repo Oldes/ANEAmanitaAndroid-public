@@ -1,0 +1,32 @@
+//apply plugin: 'com.android.application'
+apply plugin: 'com.android.library'
+
+android {
+    compileSdkVersion 24
+    buildToolsVersion "24.0.2" //puvodne: 24.0.2
+
+    defaultConfig {
+        //applicationId "com.amanitadesign.ane"
+        minSdkVersion 16
+        targetSdkVersion 24
+        versionCode 1
+        versionName "1.0"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    useLibrary 'org.apache.http.legacy'
+}
+
+dependencies {
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+
+    compile 'com.android.support:design:24.2.1'
+
+    compile files('libs/FlashRuntimeExtensions.jar')
+    compile files('libs/runtimeClasses.jar')
+}

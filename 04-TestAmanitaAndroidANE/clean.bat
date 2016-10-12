@@ -1,0 +1,1 @@
+@IF EXIST .\Build\TestAmanitaAndroidANE.apk DEL /F /Q .\Build\TestAmanitaAndroidANE.apk

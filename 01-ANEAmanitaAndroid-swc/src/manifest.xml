@@ -1,0 +1,5 @@
+<?xml version="1.0"?>
+
+<componentPackage>
+	<component id="AndroidNative" class="com.amanitadesign.AndroidNative"/>
+</componentPackage>
