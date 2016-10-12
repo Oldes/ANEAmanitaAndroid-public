@@ -10,6 +10,7 @@ Requirements:
 Script goall.bat will do everything including building and running test if some device is connected.
 The only thing which is not made using this script is *making an Android project* which must be done from Android Studio as I don't know, how to update it from a script so far.
 
+Thanks belongs to MyFlashLabs Team for this tutorial which could be also handed: http://www.myflashlabs.com/build-ane-android-studio/
 
 - - - - - - - - - - - - -
 Copyright (c) 2016, Oldes
