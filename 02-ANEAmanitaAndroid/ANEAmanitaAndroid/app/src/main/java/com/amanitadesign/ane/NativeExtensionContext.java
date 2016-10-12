@@ -29,11 +29,21 @@ import com.adobe.fre.FREFunction;
 import com.adobe.air.ActivityResultCallback;
 import com.adobe.air.AndroidActivityWrapper;
 
+import com.google.android.gms.games.GamesActivityResultCodes;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.games.Games;
+import com.google.android.gms.games.GamesStatusCodes;
 
-public class NativeExtensionContext extends FREContext implements ActivityResultCallback
+
+public class NativeExtensionContext extends FREContext implements GameHelper.GameHelperListener, ActivityResultCallback
 {
 	public static final String TAG = "AmanitaContext";
 	private AndroidActivityWrapper aaw = null;
+
+    private static GameHelper mHelper = null;
+    final int RC_SHOW_ACHIEVEMENTS = 4237;
+    final int MAX_SNAPSHOT_RESOLVE_RETRIES = 3;
+
 
     public NativeExtensionContext()
     {
@@ -56,6 +66,13 @@ public class NativeExtensionContext extends FREContext implements ActivityResult
 		Map<String, FREFunction> functions = new HashMap<String, FREFunction>();
 		functions.put("init", new InitFunction());
 		functions.put("hello", new HelloFunction());
+
+		functions.put("signIn", new AirGooglePlayGamesSignInFunction());
+		functions.put("signOut", new AirGooglePlayGamesSignOutFunction());
+		functions.put("isSignedIn", new AirGooglePlayGamesIsSignedInFunction());
+		functions.put("reportAchievement", new AirGooglePlayGamesReportAchievementFunction());
+		functions.put("showStandardAchievements", new AirGooglePlayGamesShowAchievementsFunction());
+
 		return functions;
 	}
 
@@ -67,6 +84,130 @@ public class NativeExtensionContext extends FREContext implements ActivityResult
 				" requestCode:" + Integer.toString(requestCode) +
 				" resultCode:" + Integer.toString(resultCode));
 
-	}
+        if (requestCode == RC_SHOW_ACHIEVEMENTS && resultCode == GamesActivityResultCodes.RESULT_RECONNECT_REQUIRED)
+        {
+            mHelper.disconnect();
+            mHelper = null;
+            dispatchEvent("ON_SIGN_OUT_SUCCESS");
+        }
+        else if (mHelper != null)
+        {
+            mHelper.onActivityResult(requestCode, resultCode, intent);
+        }
+    }
+
+    public void dispatchEvent(String eventName) {
+        dispatchEvent(eventName, "OK");
+    }
+
+    public void logEvent(String eventName) {
+        Log.i(TAG, eventName);
+    }
+
+    public void dispatchEvent(String eventName, String eventData)
+    {
+        logEvent(eventName);
+        if (eventData == null)
+        {
+            eventData = "OK";
+        }
+        dispatchStatusEventAsync(eventName, eventData);
+    }
+
+
+    public GameHelper createHelperIfNeeded(Activity activity)
+    {
+        if (mHelper == null)
+        {
+            logEvent("create helper");
+            mHelper = new GameHelper(getActivity(), GameHelper.CLIENT_GAMES);// | GameHelper.CLIENT_SNAPSHOT | GameHelper.CLIENT_PLUS);
+            mHelper.setup(this);
+        }
+        return mHelper;
+    }
+
+
+    private List<Activity> _activityInstances;
+
+    public void registerActivity(Activity activity)
+    {
+        if (_activityInstances == null)
+        {
+            _activityInstances = new ArrayList<Activity>();
+        }
+        _activityInstances.add(activity);
+    }
+
+    public void signOut()
+    {
+        logEvent("signOut");
+
+        mHelper.signOut();
+        dispatchEvent("ON_SIGN_OUT_SUCCESS");
+    }
+
+    public Boolean isSignedIn() {
+        return mHelper.isSignedIn();
+    }
+
+    public GoogleApiClient getApiClient() {
+        return mHelper.getApiClient();
+    }
+
+    public void reportAchievements(String achievementId)
+    {
+        if (!isSignedIn()) {
+            return;
+        }
+        Games.Achievements.unlock(getApiClient(), achievementId);
+    }
+
+    public void showAchievements()
+    {
+        Intent achievementsIntent = Games.Achievements.getAchievementsIntent(mHelper.getApiClient());
+        getActivity().startActivityForResult(achievementsIntent, RC_SHOW_ACHIEVEMENTS);
+    }
+
+    public void reportAchievements(String achievementId, double percentDouble)
+    {
+        if (percentDouble > 0 && percentDouble <= 1){
+            int percent = (int) (percentDouble * 100);
+            Games.Achievements.setSteps(getApiClient(), achievementId, percent);
+        }
+    }
+
+    @Override
+    public void onSignInFailed() {
+        logEvent("onSignInFailed");
+        dispatchEvent("ON_SIGN_IN_FAIL");
+        if (_activityInstances != null)
+        {
+            for (Activity activity : _activityInstances)
+            {
+                if (activity != null)
+                {
+                    activity.finish();
+                }
+            }
+            _activityInstances = null;
+        }
+    }
+
+    @Override
+    public void onSignInSucceeded() {
+        dispatchEvent("ON_SIGN_IN_SUCCESS");
+        if (_activityInstances != null)
+        {
+            for (Activity activity : _activityInstances)
+            {
+                if (activity != null)
+                {
+                    activity.finish();
+                }
+            }
+            _activityInstances = null;
+        }
+    }
+
 
 }

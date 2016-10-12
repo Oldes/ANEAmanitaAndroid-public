@@ -40,6 +40,7 @@ copy src\assets\swc-contents\library.swf src\assets\platform\Android-ARM
     -target ane ANEAmanitaAndroid.ane src\extension.xml	^
     -swc src\assets\com.amanitadesign.AndroidNative.swc	^
     -platform Android-ARM                               ^
+    -platformoptions  src\platform-android.xml          ^
     -C src\assets\platform\Android-ARM .
 
 RD  /S /Q .\src\assets
