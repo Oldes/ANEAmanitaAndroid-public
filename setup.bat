@@ -1,3 +1,3 @@
 
 SET AIR_SDK=c:\SDKs\AIR23
-set PATH=%PATH%;%AIR_SDK%\bin
+
