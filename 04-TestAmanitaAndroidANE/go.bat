@@ -1,5 +1,6 @@
 @set PAUSE_ERRORS=1
-@set AIR_SDK=C:\SDKs\AIR23
+
+call ..\setup.bat
 
 @echo Building SWF file
 

@@ -1,9 +1,10 @@
 :: Path to Flex SDK
-@set FLEX_SDK=C:\SDKs\AIR23
+call ..\setup.bat
+
 @set PASS=none
 
 :validation
-@if not exist "%FLEX_SDK%\bin" goto flexsdk
+@if not exist "%AIR_SDK%\bin" goto flexsdk
 @goto succeed
 
 
@@ -11,7 +12,7 @@
 @echo.
 @echo ERROR: incorrect path to Flex SDK
 @echo.
-@echo Looking for: %FLEX_SDK%\bin
+@echo Looking for: %AIR_SDK%\bin
 @echo.
 @if %PAUSE_ERRORS%==1 pause
 @exit
@@ -36,7 +37,7 @@ mkdir src\assets\platform\Android-ARM
 copy "..\02-ANEAmanitaAndroid\AndroidNative.jar" src\assets\platform\Android-ARM
 copy src\assets\swc-contents\library.swf src\assets\platform\Android-ARM
 
-@java -jar "%FLEX_SDK%\lib\adt.jar" -package        ^
+@java -jar "%AIR_SDK%\lib\adt.jar" -package        ^
     -target ane ANEAmanitaAndroid.ane src\extension.xml	^
     -swc src\assets\com.amanitadesign.AndroidNative.swc	^
     -platform Android-ARM                               ^

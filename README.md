@@ -4,7 +4,8 @@ Android Native Extension in 4 steps (including test app)
 
 Requirements:
 
-1. AIR SDK http://www.adobe.com/devnet/air/air-sdk-download.html
+1. AIR SDK http://www.adobe.com/devnet/air/air-sdk-download.html 
+  (unpack it and change the path in *setup.bat* file - I'm having it in C:\SDKs\AIR23\)
 2. Android Studio https://developer.android.com/studio/
 
 Script goall.bat will do everything including building and running test if some device is connected.
