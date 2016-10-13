@@ -10,17 +10,34 @@
 	<description></description>
 	<copyright></copyright>
 	
-	<android>
-		<manifestAdditions><![CDATA[
+<android>
+    <manifestAdditions><![CDATA[
+          
+          <manifest android:installLocation="auto">
+            <uses-sdk android:minSdkVersion="9" android:targetSdkVersion="24"/>
 			
-			<manifest android:installLocation="auto">
-			  <uses-sdk android:minSdkVersion="8"/>
-				<uses-permission android:name="android.permission.INTERNET"/>
-				<uses-feature android:required="true" android:name="android.hardware.touchscreen.multitouch"/>
-			</manifest>
-			
-		]]></manifestAdditions>
-	</android>
+            <application android:enabled="true">
+              <activity android:excludeFromRecents="false" >
+                <intent-filter>
+                  <action android:name="android.intent.action.MAIN"/>
+                  <category android:name="android.intent.category.LAUNCHER"/>
+                </intent-filter>
+              </activity>
+
+                <!-- GooglePlay Games Services -->
+                <meta-data android:name="com.google.android.gms.version" android:value="9452000"/>
+				
+				<!-- APP ID - you must change it to ID of your application! -->
+                <meta-data android:name="com.google.android.gms.games.APP_ID" android:value="\ 278609204045" />
+				
+            </application>
+          </manifest>
+          
+        ]]></manifestAdditions>
+
+   <colorDepth>32bit</colorDepth>
+  </android>
+
     <iPhone> 
         <InfoAdditions><![CDATA[ 
 		
