@@ -1,3 +1,9 @@
+/*
+ * 
+ * This code was partially stolen from Wadedwalker as is explained here:
+ * https://forums.adobe.com/message/9088185#9088185
+ * 
+ */
 package com.amanitadesign.ane.functions;
 
 import android.app.Activity;

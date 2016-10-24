@@ -1,10 +1,15 @@
+/*
+ * 
+ * This code was partially stolen from Wadedwalker as is explained here:
+ * https://forums.adobe.com/message/9088185#9088185
+ * 
+ */
+
 package com.amanitadesign.ane;
 
 import android.annotation.TargetApi;
 import android.app.Activity;  
 import android.os.Build;  
-//import android.graphics.Color;  
-//import android.graphics.drawable.ColorDrawable;  
 import android.os.Bundle;
 import android.util.Log;
 
