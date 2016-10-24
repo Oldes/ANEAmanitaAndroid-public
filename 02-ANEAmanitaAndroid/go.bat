@@ -1,37 +1,21 @@
 @echo off
-echo Build from Android Studio!
 
-jar xf ANEAmanitaAndroid\app\build\outputs\aar\app-debug.aar classes.jar
-MOVE /Y classes.jar AndroidNative.jar
+jar cvf AndroidNative.jar ANEAmanitaAndroid-eclipse\bin\classes\*
 
 MKDIR AndroidNative
 MOVE /Y AndroidNative.jar AndroidNative/
 CD AndroidNative
 jar -xvf  AndroidNative.jar
 DEL AndroidNative.jar
+RD  /S /Q META-INF
 
 MKDIR classes
-MOVE /Y classes.jar classes/
+MOVE /Y ANEAmanitaAndroid-eclipse/bin/classes/com classes/
 CD classes
-jar -xvf  classes.jar
-DEL classes.jar
 
-RD  /S /Q META-INF
-RD  /S /Q android
-RD  /S /Q .\com\adobe
-DEL /F /Q com\google\android\gms\R.java
+jar cvf AndroidNative.jar *
+MOVE /Y AndroidNative.jar ../../
 
-jar cvf classes.jar .\com
+CD ../../
 
-MOVE /Y classes.jar ../
-CD ..
-RD  /S /Q classes
-
-
-::xcopy /S /Y ..\gms\* .\com\google\android\gms\
-
-jar cvf AndroidNative.jar .\com classes.jar
-
-MOVE /Y AndroidNative.jar ../
-CD ..
-RD /S /Q AndroidNative
+RD  /S /Q AndroidNative
