@@ -4,6 +4,9 @@ package com.amanitadesign
 	import flash.external.ExtensionContext;
 	import flash.system.Capabilities;
 
+	import flash.events.Event;
+	import flash.events.StatusEvent;
+	import com.amanitadesign.events.RequestPermissionsResultEvent;
 	
 	public class AndroidNative extends EventDispatcher
 	{
@@ -20,6 +23,7 @@ package com.amanitadesign
 			if ( !extContext ) {
 				throw new Error( "AndroidNative extension is not supported on this platform." );
 			}
+			extContext.addEventListener( StatusEvent.STATUS, onStatusHandler );
 		}
 		
 		/** Extension is supported on Android devices. */
@@ -31,7 +35,26 @@ package com.amanitadesign
 		
 		private function init():void {
 			extContext.call( "init" );
+			
 		}
+
+		private function onStatusHandler( event:StatusEvent ):void {
+			trace("onStatusHandler: " + event)
+			var e:Event;
+			
+			switch(event.code) {
+				case RequestPermissionsResultEvent.ON_REQUEST_PERMISSIONS_RESULT:
+					e = new RequestPermissionsResultEvent(event.code, event.level);
+					break;
+					
+			}
+			if(e) {
+				this.dispatchEvent(e);
+			}
+			//
+			//
+		}
+
 		
 		/**
 		 * Cleans up the instance of the native extension. 
@@ -58,6 +81,13 @@ package com.amanitadesign
 		
 		public function hello():String {
 			return extContext.call( "hello" ) as String;
+		}
+		
+		public function checkPermission(permision:String): Boolean {
+			return extContext.call("checkPermission", permision) as Boolean;
+		}
+		public function requestPermissions(permisions:Array): Boolean {
+			return extContext.call("requestPermissions", permisions) as Boolean;
 		}
 		
 	}

@@ -53,6 +53,8 @@ public class NativeExtensionContext extends FREContext implements ActivityResult
 		Map<String, FREFunction> functions = new HashMap<String, FREFunction>();
 		functions.put("init", new InitFunction());
 		functions.put("hello", new HelloFunction());
+		functions.put("checkPermission", new PermissionsFunctions.CheckPermission());
+		functions.put("requestPermissions", new PermissionsFunctions.RequestPermissions());
 		return functions;
 	}
 

@@ -5,7 +5,7 @@
 
 java -Dsun.io.useCanonCaches=false -Xms32m -Xmx512m -Dflexlib="%AIR_SDK%\frameworks" -jar "%AIR_SDK%\lib\mxmlc-cli.jar" ^
 	-load-config="%AIR_SDK%/frameworks/air-config.xml" -load-config+=TestAmanitaAndroidANEConfig.xml +configname=air ^
-	-optimize=true -o TestAmanitaAndroidANE.swf
+	-optimize=true -debug=true -o TestAmanitaAndroidANE.swf
 
 	
 @echo off
@@ -27,7 +27,7 @@ echo Packing new build...
 set AIR_NOANDROIDFLAIR=true
 
 @echo on
-java -jar %AIR_SDK%\lib\adt.jar -package -target apk-captive-runtime ^
+java -jar %AIR_SDK%\lib\adt.jar -package -target apk-debug ^
 	-storetype pkcs12 -keystore TestAmanitaAndroidANE.p12 -storepass fd ^
 	%BUILD_NAME%  application.xml TestAmanitaAndroidANE.swf icons/* ^
 	-extdir ../03-ANEAmanitaAndroid-ane/

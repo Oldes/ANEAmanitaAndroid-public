@@ -12,6 +12,7 @@ package
 	import flash.text.TextField;
 	
 	import com.amanitadesign.AndroidNative;
+	import com.amanitadesign.events.RequestPermissionsResultEvent
 	
 	/**
 	 * ...
@@ -41,9 +42,20 @@ package
 			log("AndroidNative is supported: " + AndroidNative.isSupported);
 			log(AndroidNative.instance.hello());
 			
+			//Permissions test example:
+			AndroidNative.instance.addEventListener(RequestPermissionsResultEvent.ON_REQUEST_PERMISSIONS_RESULT, onRequestPermissionsResult);
+			log("PERMISION WRITE: " + AndroidNative.instance.checkPermission("android.permission.WRITE_EXTERNAL_STORAGE"));
+			log("RequestionPermissions: "+ AndroidNative.instance.requestPermissions(["android.permission.WRITE_EXTERNAL_STORAGE", "android.permission.RECEIVE_SMS"]));
+			
 		}
 		
-		private function log(value:String):void{
+		private function onRequestPermissionsResult( event:RequestPermissionsResultEvent ):void {
+			log("RequestPermissionsResult: " + event.value);
+			log("PERMISION WRITE: " + AndroidNative.instance.checkPermission("android.permission.WRITE_EXTERNAL_STORAGE"));
+		}
+		
+		private function log(value:String):void {
+			trace(value);
 			tf.appendText(value+"\n");
 			tf.scrollV = tf.maxScrollV;
 		}

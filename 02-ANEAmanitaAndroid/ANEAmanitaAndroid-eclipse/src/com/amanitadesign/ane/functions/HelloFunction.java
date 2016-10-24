@@ -25,11 +25,12 @@ public class HelloFunction implements FREFunction  {
 			act = ctx.getActivity();
 			String deviceId = Secure.getString(act.getContentResolver(), Secure.ANDROID_ID);
 			mContext=act;
-
-			result = FREObject.newObject(
-					"*** DeviceID: "+deviceId
+			String message = "*** DeviceID: "+deviceId
 					+"\n*** PackageName: "+act.getPackageName()
-					+"\n*** ExternalStorageDir: "+Environment.getExternalStorageDirectory());
+					+"\n*** ExternalStorageDir: "+Environment.getExternalStorageDirectory();
+			Log.i(TAG, message);
+			
+			result = FREObject.newObject(message);
 
 		} catch (FREWrongThreadException e) {
 			Log.d(TAG, "##### Caught FREWrongThreadException");
