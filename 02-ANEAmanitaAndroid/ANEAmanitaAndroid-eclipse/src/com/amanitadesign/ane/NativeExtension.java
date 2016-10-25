@@ -24,7 +24,7 @@ public class NativeExtension implements FREExtension {
 
     @Override
     public void dispose() {
-        Log.d(TAG, "Extension disposed.");
+        if(VERBOSE > 0) Log.i(TAG, "Extension disposed.");
 
         appContext = null;
         extensionContext = null;
@@ -32,7 +32,7 @@ public class NativeExtension implements FREExtension {
 
     @Override
     public void initialize() {
-        Log.d(TAG, "Extension initialized.");
+    	if(VERBOSE > 0) Log.i(TAG, "Extension initialized.");
     }
 
 }
