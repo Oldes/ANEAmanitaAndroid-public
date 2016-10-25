@@ -29,7 +29,7 @@ public class NativeExtensionContext extends FREContext
 
     @Override
 	public void dispose() {
-		Log.i(NativeExtension.TAG,"Context disposed.");
+    	if(NativeExtension.VERBOSE > 0) Log.i(NativeExtension.TAG,"Context disposed.");
 	}
 
 	@Override
