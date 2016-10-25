@@ -2,7 +2,6 @@ package com.amanitadesign.ane;
 
 import com.amanitadesign.ane.NativeExtensionContext;
 import android.content.Context;
-import android.content.Intent;
 import android.util.Log;
 
 import com.adobe.fre.FREContext;
@@ -17,19 +16,6 @@ public class NativeExtension implements FREExtension {
 
     public static NativeExtensionContext extensionContext;
     public static Context appContext;
-   // public static SettingsContentObserver mSettingsWatcher;
-
-    public static Intent googleAPIActivityIntent;
-
-    public static void notifyLicenseStatus(String status, String error) {
-        Log.i(TAG, "notifyLicenseStatus: "+status+" "+error);
-        try {
-            extensionContext.dispatchStatusEventAsync(status, error);
-        } catch (Exception e) {
-            Log.i(TAG, "*** Failed to dispatch status!");
-            e.printStackTrace();
-        }
-    }
 
     @Override
     public FREContext createContext(String contextType) {
@@ -42,7 +28,6 @@ public class NativeExtension implements FREExtension {
 
         appContext = null;
         extensionContext = null;
-        googleAPIActivityIntent = null;
     }
 
     @Override
@@ -50,8 +35,4 @@ public class NativeExtension implements FREExtension {
         Log.d(TAG, "Extension initialized.");
     }
 
-    public static void log(String message)
-    {
-        extensionContext.dispatchStatusEventAsync("LOGGING", message);
-    }
 }
