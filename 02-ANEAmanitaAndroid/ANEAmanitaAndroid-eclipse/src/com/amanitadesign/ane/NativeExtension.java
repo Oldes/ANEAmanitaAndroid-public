@@ -32,7 +32,7 @@ public class NativeExtension implements FREExtension {
 
     @Override
     public void initialize() {
-        if(VERBOSE > 0) Log.i(TAG, "Extension initialized.");
+    	if(VERBOSE > 0) Log.i(TAG, "Extension initialized.");
     }
 
 }
