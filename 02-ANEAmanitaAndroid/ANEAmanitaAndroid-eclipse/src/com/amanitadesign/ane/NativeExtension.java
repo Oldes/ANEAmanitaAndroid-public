@@ -13,6 +13,7 @@ import com.adobe.fre.FREExtension;
  */
 public class NativeExtension implements FREExtension {
     public static final String TAG = "AmanitaNativeExtension";
+    public static final int VERBOSE = 0; 
 
     public static NativeExtensionContext extensionContext;
     public static Context appContext;
@@ -32,10 +33,7 @@ public class NativeExtension implements FREExtension {
 
     @Override
     public FREContext createContext(String contextType) {
-        Log.i(TAG, "createContext: "+ contextType);
-        extensionContext = new NativeExtensionContext();
-
-        return extensionContext;
+        return extensionContext = new NativeExtensionContext();
     }
 
     @Override

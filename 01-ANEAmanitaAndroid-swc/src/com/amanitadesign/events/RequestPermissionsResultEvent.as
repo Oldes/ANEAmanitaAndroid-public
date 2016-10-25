@@ -4,17 +4,24 @@ package com.amanitadesign.events
 	
 	public class RequestPermissionsResultEvent extends Event
 	{
-		public static const ON_REQUEST_PERMISSIONS_RESULT = "onRequestPermissionsResult";
-		private var mValue:String;
+		public static const ON_REQUEST_PERMISSIONS_RESULT:String = "onRequestPermissionsResult";
+		private var mResults:Array;
 		
 		public function RequestPermissionsResultEvent(type:String, value:String="", bubbles:Boolean=false, cancelable:Boolean=false)
 		{
-			mValue = value;
 			super(type, bubbles, cancelable);
-			//trace("RequestPermissionsResultEvent: " + value);
+			mResults = new Array();
+			var values:Array = value.split(" ");
+			var i:uint;
+			var length:uint = values.length;
+			while(i < length) {
+				mResults[String(values[i++])] = (values[i++] == "1");
+			}
+			
+			
 		}
-		[Inline] public final function get value():String {
-			return mValue;
+		[Inline] public final function get results():Array {
+			return mResults;
 		}
 	}
 }

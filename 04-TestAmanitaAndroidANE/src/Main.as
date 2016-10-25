@@ -45,13 +45,21 @@ package
 			//Permissions test example:
 			AndroidNative.instance.addEventListener(RequestPermissionsResultEvent.ON_REQUEST_PERMISSIONS_RESULT, onRequestPermissionsResult);
 			log("PERMISION WRITE: " + AndroidNative.instance.checkPermission("android.permission.WRITE_EXTERNAL_STORAGE"));
-			log("RequestionPermissions: "+ AndroidNative.instance.requestPermissions(["android.permission.WRITE_EXTERNAL_STORAGE", "android.permission.RECEIVE_SMS"]));
+			/** NOTE: you must have the rights in the request specified in application manifest as it was required for SDK < 23, else it would not work! **/
+			log("Requesting for permissions: "+ AndroidNative.instance.requestPermissions(["android.permission.WRITE_EXTERNAL_STORAGE", "android.permission.RECEIVE_SMS"]));
 			
 		}
 		
 		private function onRequestPermissionsResult( event:RequestPermissionsResultEvent ):void {
-			log("RequestPermissionsResult: " + event.value);
-			log("PERMISION WRITE: " + AndroidNative.instance.checkPermission("android.permission.WRITE_EXTERNAL_STORAGE"));
+			var results:Array = event.results;
+			log("Request Permissions Result:");
+			if(results) {
+				for (var key:String in results) {
+					log("^-" + key + " " + results[key]);
+				}
+				log("PERMISION WRITE (using result): " + results["android.permission.WRITE_EXTERNAL_STORAGE"]);
+			}
+			log("PERMISION WRITE (using check) : " + AndroidNative.instance.checkPermission("android.permission.WRITE_EXTERNAL_STORAGE"));
 		}
 		
 		private function log(value:String):void {

@@ -26,9 +26,9 @@ public class PermissionsFunctions {
 		final public FREObject call(FREContext context, FREObject[] args) {
 			try {
 				String permission = args[0].getAsString();
-				Log.d(NativeExtension.TAG, "Checking permission: "+ permission);
+				if(NativeExtension.VERBOSE > 1) Log.d(NativeExtension.TAG, "Checking permission: "+ permission);
 				int permissionCheck = context.getActivity().checkPermission(permission, android.os.Process.myPid(), android.os.Process.myUid());
-				Log.d(NativeExtension.TAG, "Checking permission: "+ permission+" "+ permissionCheck);
+				if(NativeExtension.VERBOSE > 0) Log.d(NativeExtension.TAG, "Checking permission: "+ permission+" "+ permissionCheck);
 				return 	FREObject.newObject(permissionCheck == PackageManager.PERMISSION_GRANTED);
 			}
 			catch (Exception e) {
@@ -41,8 +41,8 @@ public class PermissionsFunctions {
 		@Override
 		final public FREObject call(FREContext context, FREObject[] args) {
 			try {
-				Activity act = context.getActivity();
 				if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP_MR1) {
+					Activity act = context.getActivity();
 					act.overridePendingTransition(0,0);
 					
 					final FREArray array = (FREArray) args[0];
@@ -54,17 +54,17 @@ public class PermissionsFunctions {
 				    	if(permission != null) permissions[i] = permission;
 				    }
 				    
-				    Log.d(NativeExtension.TAG, "Checking permissions: "+ permissions);
+				    if(NativeExtension.VERBOSE > 0) Log.d(NativeExtension.TAG, "Checking permissions: "+ permissions);
 					
 					final Intent intent = new Intent(act, PermissionsRequestActivity.class);
 					intent.putExtra("permissions", permissions);
 					act.startActivity(intent);
 					act.overridePendingTransition(0,0);
 					
-					return FREObject.newObject(true);
+					return FREObject.newObject(true); //true means that we should wait for callback on AS3 side
 				}
 				else {
-					return FREObject.newObject(false);
+					return FREObject.newObject(false); //false means that we can continue without waiting for callback
 				}
 			}
 			catch (Exception e) {
