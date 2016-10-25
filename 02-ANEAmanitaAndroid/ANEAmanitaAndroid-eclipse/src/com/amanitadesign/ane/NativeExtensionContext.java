@@ -20,18 +20,16 @@ import com.adobe.fre.FREContext;
 import com.adobe.fre.FREFunction;
 
 
-public class NativeExtensionContext extends FREContext 
-{
-    public static FREContext FREContext;
 
+public class NativeExtensionContext extends FREContext
+{
     public NativeExtensionContext()
     {
-
     }
 
     @Override
 	public void dispose() {
-		Log.i(NativeExtension.TAG, "Context disposed.");
+		Log.i(NativeExtension.TAG,"Context disposed.");
 	}
 
 	@Override
