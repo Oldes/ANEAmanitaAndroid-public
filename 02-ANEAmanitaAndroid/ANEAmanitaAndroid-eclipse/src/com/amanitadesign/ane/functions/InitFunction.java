@@ -9,6 +9,7 @@ import com.adobe.fre.FREFunction;
 import com.adobe.fre.FREObject;
 
 public class InitFunction implements FREFunction {
+	
 	@Override
 	public FREObject call(FREContext context, FREObject[] args) {
 		Context appContext = context.getActivity().getApplicationContext();
