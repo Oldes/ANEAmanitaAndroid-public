@@ -9,43 +9,29 @@
  */
 package com.amanitadesign.ane;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import com.amanitadesign.ane.functions.*;
 
-import android.app.Activity;
-import android.content.Intent;
 import android.util.Log;
 
 import com.adobe.fre.FREContext;
 import com.adobe.fre.FREFunction;
-import com.adobe.air.ActivityResultCallback;
-import com.adobe.air.AndroidActivityWrapper;
 
 
-public class NativeExtensionContext extends FREContext implements ActivityResultCallback
+public class NativeExtensionContext extends FREContext 
 {
-	public static final String TAG = "AmanitaContext";
-	private AndroidActivityWrapper aaw = null;
     public static FREContext FREContext;
 
     public NativeExtensionContext()
     {
-        aaw = AndroidActivityWrapper.GetAndroidActivityWrapper();
-        aaw.addActivityResultListener(this); 
+
     }
 
     @Override
 	public void dispose() {
-        if (aaw != null)
-        {
-            aaw.removeActivityResultListener(this);
-            aaw = null;
-        }
-		Log.d(TAG,"Context disposed.");
+		Log.i(NativeExtension.TAG, "Context disposed.");
 	}
 
 	@Override
@@ -56,45 +42,4 @@ public class NativeExtensionContext extends FREContext implements ActivityResult
 		return functions;
 	}
 
-
-	@Override
-	public void onActivityResult(int requestCode, int resultCode, Intent intent) {
-
-		NativeExtension.log("ExtensionContext.onActivityResult" +
-				" requestCode:" + Integer.toString(requestCode) +
-				" resultCode:" + Integer.toString(resultCode));
-
-    }
-
-    public void dispatchEvent(String eventName) {
-        dispatchEvent(eventName, "OK");
-    }
-
-    public void logEvent(String eventName) {
-        Log.i(TAG, eventName);
-    }
-
-    public void dispatchEvent(String eventName, String eventData)
-    {
-        logEvent(eventName);
-        if (eventData == null)
-        {
-            eventData = "OK";
-        }
-        dispatchStatusEventAsync(eventName, eventData);
-    }
-
-
-    private List<Activity> _activityInstances;
-
-    public void registerActivity(Activity activity)
-    {
-        if (_activityInstances == null)
-        {
-            _activityInstances = new ArrayList<Activity>();
-        }
-        _activityInstances.add(activity);
-    }
-
-    
 }
